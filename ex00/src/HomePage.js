@@ -100,7 +100,7 @@ function HomePage() {
       </form>
       {imageUrl && (
         <div className="generated-image">
-          <h2>Generated Image:</h2>
+          <h2>Your Creation:</h2>
           <img src={imageUrl} alt="Generated" />
         </div>
       )}
