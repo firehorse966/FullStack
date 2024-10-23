@@ -5,6 +5,7 @@ import './App.css';
 import Login from './Login';
 import Register from './Register';
 import HomePage from './HomePage';
+import GeneratedImageComponent from './GeneratedImageComponent'; // Import the new component
 require('dotenv').config();
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/home" element={<HomePage />} />
+          <Route path="/generated-image" element={<GeneratedImageComponent />} /> {/* Add the new route */}
         </Routes>
       </header>
     </div>

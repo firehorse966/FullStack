@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { usePollinationsImage } from '@pollinations/react';
 
 function HomePage() {
   const [selectedCategories, setSelectedCategories] = useState({
@@ -9,7 +10,15 @@ function HomePage() {
     characteristic4: '',
     characteristic5: ''
   });
-  const [aiResponse, setAiResponse] = useState('');
+  const [prompt, setPrompt] = useState('');
+
+  const imageUrl = usePollinationsImage(prompt, {
+    width: 768,
+    height: 768,
+    seed: 42,
+    model: 'flux',
+    nologo: true
+  });
 
   const handleCategoryChange = (event, characteristic) => {
     setSelectedCategories({
@@ -23,26 +32,29 @@ function HomePage() {
     console.log('Selected Categories:', selectedCategories);
 
     // Generate a detailed prompt based on the selected options
-    const prompt = `Create a drawing with the following characteristics:
+    const generatedPrompt = `Create a drawing of a Pokémon with the following characteristics:
     - Type: ${selectedCategories.characteristic1}
     - Species: ${selectedCategories.characteristic2}
     - Appearance: ${selectedCategories.characteristic3}
     - Color: ${selectedCategories.characteristic4}
     - Shape: ${selectedCategories.characteristic5}`;
 
-    try {
-      const response = await axios.post('http://localhost:5000/api/gemini', { prompt });
+    setPrompt(generatedPrompt);
 
-      setAiResponse(response.data);
+    try {
+      await axios.post('http://localhost:5000/api/gemini', { prompt: generatedPrompt });
     } catch (error) {
       console.error('Error calling Gemini API:', error);
-      setAiResponse('Error generating response from Gemini API.');
     }
   };
 
+  useEffect(() => {
+    console.log('Generated image URL:', imageUrl);
+  }, [imageUrl]);
+
   return (
     <div className="home-container">
-      <h1>Welcome! unleash your inner pokemon</h1>
+      <h1>Welcome! unleash your inner Pokémon</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Type:</label>
@@ -86,10 +98,10 @@ function HomePage() {
         </div>
         <button type="submit">Submit</button>
       </form>
-      {aiResponse && (
-        <div className="ai-response">
-          <h2>AI Response:</h2>
-          <p>{aiResponse}</p>
+      {imageUrl && (
+        <div className="generated-image">
+          <h2>Generated Image:</h2>
+          <img src={imageUrl} alt="Generated" />
         </div>
       )}
     </div>
