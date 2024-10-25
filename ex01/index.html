@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Globify</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Globify</h1>
+        <button id="loginBtn">Login with Spotify</button>
+        <button id="logoutBtn" style="display: none;">Logout</button>
+    </header>
+    <nav>
+        <ul>
+            <li><button id="homeBtn">Home</button></li>
+            <li><button id="favoritesBtn">Favorites</button></li>
+            <li><button id="playlistsBtn">Playlists</button></li>
+        </ul>
+    </nav>
+    <main>
+        <div id="mainContent"></div>
+    </main>
+    <script src="js/auth.js" type="module"></script>
+    <script src="js/script.js" type="module"></script>
+</body>
+</html>
